@@ -1,4 +1,4 @@
-import { isUuid } from 'uuidv4';
+import { validate } from 'uuid';
 import { getRepository } from 'typeorm';
 
 import Product from '../models/Product';
@@ -24,7 +24,7 @@ class UpdateProductService {
   }: Request): Promise<Product> {
     const productsRepository = getRepository(Product);
 
-    if (!isUuid(id)) {
+    if (!validate(id)) {
       throw new AppError('ID is not valid');
     }
 

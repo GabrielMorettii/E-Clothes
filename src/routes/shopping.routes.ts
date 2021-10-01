@@ -4,6 +4,7 @@ import { getRepository } from 'typeorm';
 
 import Product from '../models/Product';
 import CreateProductService from '../service/CreateProductService';
+import DeleteProductService from '../service/DeleteProductService';
 import UpdateProductService from '../service/UpdateProductService';
 
 const shoppingRouter = Router();
@@ -48,6 +49,16 @@ shoppingRouter.put('/:id', async (request, response) => {
   });
 
   return response.json(newProduct);
+});
+
+shoppingRouter.delete('/:id', async (request, response) => {
+  const { id } = request.params;
+
+  const deleteProduct = new DeleteProductService();
+
+  await deleteProduct.execute(id);
+
+  return response.status(204).send();
 });
 
 export default shoppingRouter;
