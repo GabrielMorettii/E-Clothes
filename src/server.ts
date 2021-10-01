@@ -1,5 +1,5 @@
 import app from './app';
 
 app.listen(5050, () => {
-  console.log('🧊  Drip Drip');
+  console.log('🚀 Server started with success!');
 });
