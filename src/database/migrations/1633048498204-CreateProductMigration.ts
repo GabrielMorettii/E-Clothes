@@ -21,7 +21,7 @@ export default class CreateProductMigration1633048498204
           },
           {
             name: 'value',
-            type: 'numeric',
+            type: 'decimal',
             precision: 10,
             scale: 2,
           },

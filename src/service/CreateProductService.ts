@@ -1,4 +1,5 @@
 import { getRepository } from 'typeorm';
+import AppError from '../errors/AppError';
 import Product from '../models/Product';
 
 interface Request {
@@ -22,7 +23,7 @@ class CreateProductService {
     const coverAlreadyExists = await productsRepository.findOne({ cover });
 
     if (coverAlreadyExists) {
-      throw new Error('this image is already used by another product');
+      throw new AppError('this image is already used by another product');
     }
 
     const product = productsRepository.create({
