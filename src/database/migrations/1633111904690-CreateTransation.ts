@@ -20,6 +20,12 @@ export default class CreateTransation1633111904690
             type: 'integer',
           },
           {
+            name: 'total',
+            type: 'decimal',
+            precision: 10,
+            scale: 2,
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',

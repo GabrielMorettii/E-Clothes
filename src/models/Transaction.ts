@@ -17,10 +17,13 @@ class Transaction {
 
   @OneToOne(() => Product)
   @JoinColumn()
-  product: Product;
+  product_id: Product;
 
   @Column('integer')
   quantity: number;
+
+  @Column('decimal')
+  total: number;
 
   @CreateDateColumn()
   created_at: Date;
