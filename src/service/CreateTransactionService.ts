@@ -1,9 +1,10 @@
-import { getRepository } from 'typeorm';
+import { getCustomRepository, getRepository } from 'typeorm';
 import { validate } from 'uuid';
 
 import AppError from '../errors/AppError';
 import Product from '../models/Product';
 import Transaction from '../models/Transaction';
+import TransactionsRepository from '../repositories/TransactionsRepository';
 
 interface Request {
   product_id: string;
@@ -15,7 +16,7 @@ class CreateTransactionService {
     product_id,
     quantity,
   }: Request): Promise<Transaction> {
-    const transactionsRepository = getRepository(Transaction);
+    const transactionsRepository = getCustomRepository(TransactionsRepository);
     const productsRepository = getRepository(Product);
 
     if (!validate(product_id)) {

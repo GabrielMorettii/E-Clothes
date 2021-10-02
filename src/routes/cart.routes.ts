@@ -1,17 +1,18 @@
 import { Router } from 'express';
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 
-import Transaction from '../models/Transaction';
+import TransactionsRepository from '../repositories/TransactionsRepository';
 import CreateTransactionService from '../service/CreateTransactionService';
 
 const cartRouter = Router();
 
 cartRouter.get('/', async (request, response) => {
-  const transactionsRepository = getRepository(Transaction);
+  const transactionsRepository = getCustomRepository(TransactionsRepository);
 
   const transactions = await transactionsRepository.find();
+  const balance = await transactionsRepository.getBalance();
 
-  return response.json(transactions);
+  return response.json({ transactions, balance });
 });
 
 cartRouter.post('/', async (request, response) => {
