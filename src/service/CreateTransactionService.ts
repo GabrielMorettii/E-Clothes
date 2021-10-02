@@ -23,7 +23,7 @@ class CreateTransactionService {
     }
 
     const productExistent = await productsRepository.findOne({
-      where: { product_id },
+      where: { id: product_id },
     });
 
     if (!productExistent) {
