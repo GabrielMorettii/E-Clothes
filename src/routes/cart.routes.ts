@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm';
 
 import TransactionsRepository from '../repositories/TransactionsRepository';
 import CreateTransactionService from '../service/CreateTransactionService';
+import DeleteTransactionService from '../service/DeleteTransactionService';
 
 const cartRouter = Router();
 
@@ -26,6 +27,29 @@ cartRouter.post('/', async (request, response) => {
   });
 
   return response.json(transaction);
+});
+
+cartRouter.put('/', async (request, response) => {
+  const id = request.params;
+
+  const createTransaction = new CreateTransactionService();
+
+  const transaction = await createTransaction.execute({
+    product_id,
+    quantity,
+  });
+
+  return response.json(transaction);
+});
+
+cartRouter.delete('/:id', async (request, response) => {
+  const id = request.params;
+
+  const deleteTransaction = new DeleteTransactionService();
+
+  await deleteTransaction.execute(id);
+
+  return response.status(204).send();
 });
 
 export default cartRouter;
