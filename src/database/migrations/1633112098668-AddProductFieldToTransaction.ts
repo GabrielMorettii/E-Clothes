@@ -21,7 +21,7 @@ export default class AddProductFieldToTransaction1633112098668
     await queryRunner.createForeignKey(
       'transactions',
       new TableForeignKey({
-        name: 'productID',
+        name: 'productId',
         columnNames: ['product_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'products',
@@ -32,7 +32,7 @@ export default class AddProductFieldToTransaction1633112098668
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('transactions', 'productID');
+    await queryRunner.dropForeignKey('transactions', 'productId');
 
     await queryRunner.dropColumn('transactions', 'product_id');
   }
