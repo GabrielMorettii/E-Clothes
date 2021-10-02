@@ -4,6 +4,8 @@ import { getCustomRepository } from 'typeorm';
 import TransactionsRepository from '../repositories/TransactionsRepository';
 import CreateTransactionService from '../service/CreateTransactionService';
 import DeleteTransactionService from '../service/DeleteTransactionService';
+import DecrementTransactionService from '../service/DecrementTransactionService';
+import IncrementTransactionService from '../service/IncrementTransactionService';
 
 const cartRouter = Router();
 
@@ -29,21 +31,30 @@ cartRouter.post('/', async (request, response) => {
   return response.json(transaction);
 });
 
-cartRouter.put('/', async (request, response) => {
-  const id = request.params;
+cartRouter.put('/decrement/:id', async (request, response) => {
+  const { id } = request.params;
+  const { quantity } = request.body;
 
-  const createTransaction = new CreateTransactionService();
+  const decrementTransaction = new DecrementTransactionService();
 
-  const transaction = await createTransaction.execute({
-    product_id,
-    quantity,
-  });
+  await decrementTransaction.execute(id, quantity);
 
-  return response.json(transaction);
+  return response.status(204).send();
+});
+
+cartRouter.put('/increment/:id', async (request, response) => {
+  const { id } = request.params;
+  const { quantity } = request.body;
+
+  const incrementTransaction = new IncrementTransactionService();
+
+  await incrementTransaction.execute(id, quantity);
+
+  return response.status(204).send();
 });
 
 cartRouter.delete('/:id', async (request, response) => {
-  const id = request.params;
+  const { id } = request.params;
 
   const deleteTransaction = new DeleteTransactionService();
 
