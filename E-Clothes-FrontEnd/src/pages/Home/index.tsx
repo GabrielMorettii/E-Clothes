@@ -6,14 +6,29 @@ import api from '../../services/api';
 
 import { Header, Main } from './styles';
 
+interface Product {
+  id: string;
+  title: string;
+  value: number;
+  cover: string;
+  sold: number;
+  available: number;
+}
+
+interface Response {
+  products: Product[];
+}
+
 const Home: React.FC = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    api.get('/shopping').then(response => {
-      setProducts([...products, response.data]);
+    api.get<Response>('shopping').then(response => {
+      const responseBody = response.data;
+
+      setProducts(responseBody.products);
     });
-  }, [products]);
+  }, []);
 
   return (
     <>
@@ -29,17 +44,17 @@ const Home: React.FC = () => {
       <Main>
         {products.map(product => (
           <div key={product.id} className="card">
-            <img src="https://via.placeholder.com/300x200" alt="cover" />
-            <h6>Product Name</h6>
-            <p>R$ 15,00</p>
+            <img src={product.cover} alt="cover" />
+            <h6>{product.title}</h6>
+            <p>{product.value}</p>
             <div id="quantity">
-              <span>Sold: 20</span>
-              <span>Available: 5</span>
+              <span>Sold: {product.sold}</span>
+              <span>Available: {product.available}</span>
             </div>
             <button type="button">
               <div className="icon">
                 <AiOutlineShopping size={19} />
-                <span>3</span>
+                <span>0</span>
               </div>
               <p>ADICIONAR AO CARRINHO</p>
             </button>

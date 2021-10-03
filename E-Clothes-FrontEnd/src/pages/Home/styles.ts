@@ -10,6 +10,10 @@ export const Header = styled.header`
     margin-left: 10px;
     font-weight: 600;
   }
+
+  svg {
+    cursor: pointer;
+  }
 `;
 
 export const Main = styled.header`
@@ -28,7 +32,7 @@ export const Main = styled.header`
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     row-gap: 10px;
-    max-height: 400px;
+    max-height: 500px;
 
     p {
       font-size: 20px;
@@ -36,6 +40,7 @@ export const Main = styled.header`
 
     img {
       width: 100%;
+      height: 300px;
     }
 
     #quantity {
