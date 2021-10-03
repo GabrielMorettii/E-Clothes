@@ -22,8 +22,8 @@ class Transaction {
   @Column('integer')
   quantity: number;
 
-  @Column('decimal')
-  total: number;
+  @Column()
+  total: string;
 
   @CreateDateColumn()
   created_at: Date;

@@ -1,12 +1,14 @@
-import { getCustomRepository } from 'typeorm';
+import { getCustomRepository, getRepository } from 'typeorm';
 import { validate } from 'uuid';
 
 import AppError from '../errors/AppError';
+import Product from '../models/Product';
 import TransactionsRepository from '../repositories/TransactionsRepository';
 
 class IncrementTransactionService {
-  public async execute(id: string, increment: number): Promise<void> {
+  public async execute(id: string): Promise<void> {
     const transactionsRepository = getCustomRepository(TransactionsRepository);
+    const productsRepository = getRepository(Product);
 
     if (!validate(id)) {
       throw new AppError('ID is not valid');
@@ -18,7 +20,20 @@ class IncrementTransactionService {
       throw new AppError('This transaction not exists');
     }
 
-    await transactionsRepository.increment({ id }, 'quantity', increment);
+    const productOfTransaction = await productsRepository.findOne(
+      transactionExistent.product_id,
+    );
+
+    if (!productOfTransaction) {
+      throw new AppError('This product not exists');
+    }
+
+    await transactionsRepository.update(id, {
+      total: String(
+        (transactionExistent.quantity + 1) * Number(productOfTransaction.value),
+      ),
+    });
+    await transactionsRepository.increment({ id }, 'quantity', 1);
   }
 }
 

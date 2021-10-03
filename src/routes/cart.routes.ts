@@ -33,22 +33,20 @@ cartRouter.post('/', async (request, response) => {
 
 cartRouter.put('/decrement/:id', async (request, response) => {
   const { id } = request.params;
-  const { quantity } = request.body;
 
   const decrementTransaction = new DecrementTransactionService();
 
-  await decrementTransaction.execute(id, quantity);
+  await decrementTransaction.execute(id);
 
   return response.status(204).send();
 });
 
 cartRouter.put('/increment/:id', async (request, response) => {
   const { id } = request.params;
-  const { quantity } = request.body;
 
   const incrementTransaction = new IncrementTransactionService();
 
-  await incrementTransaction.execute(id, quantity);
+  await incrementTransaction.execute(id);
 
   return response.status(204).send();
 });

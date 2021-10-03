@@ -35,7 +35,7 @@ class CreateTransactionService {
       throw new AppError('The quantity is above the product stock');
     }
 
-    const total = quantity * Number(productExistent.value);
+    const total = String(quantity * Number(productExistent.value));
 
     const transaction = transactionsRepository.create({
       product_id,

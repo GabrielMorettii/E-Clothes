@@ -21,9 +21,7 @@ export default class CreateTransation1633111904690
           },
           {
             name: 'total',
-            type: 'decimal',
-            precision: 10,
-            scale: 2,
+            type: 'varchar',
           },
           {
             name: 'created_at',
