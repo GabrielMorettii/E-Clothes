@@ -21,6 +21,8 @@ interface Response {
 
 const Home: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [totalProduct, setTotalProduct] = useState(0);
+  const [availability, SetAvailability] = useState(0);
 
   useEffect(() => {
     api.get<Response>('shopping').then(response => {
@@ -29,6 +31,16 @@ const Home: React.FC = () => {
       setProducts(responseBody.products);
     });
   }, []);
+
+  async function incrementValue(id: string) {
+    try {
+      await api.put(`/shopping/cart/decrement/${id}`);
+
+      setTotalProduct(totalProduct + 1);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <>
@@ -39,6 +51,7 @@ const Home: React.FC = () => {
         </div>
         <div id="cart">
           <AiOutlineShoppingCart size={40} />
+          <div id="numberOfProducts">{totalProduct}</div>
         </div>
       </Header>
       <Main>
@@ -51,7 +64,12 @@ const Home: React.FC = () => {
               <span>Sold: {product.sold}</span>
               <span>Available: {product.available}</span>
             </div>
-            <button type="button">
+            <button
+              onClick={() => {
+                incrementValue(product.id);
+              }}
+              type="button"
+            >
               <div className="icon">
                 <AiOutlineShopping size={19} />
                 <span>0</span>

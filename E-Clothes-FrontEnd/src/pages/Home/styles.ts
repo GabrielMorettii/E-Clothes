@@ -5,10 +5,31 @@ export const Header = styled.header`
   justify-content: space-between;
   align-items: center;
 
-  span {
+  #logo span {
     font-size: 1.8rem;
     margin-left: 10px;
     font-weight: 600;
+  }
+
+  #cart {
+    position: relative;
+
+    svg {
+      margin-right: 20px;
+    }
+  }
+
+  #cart div {
+    background: #e60301;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
   }
 
   svg {
