@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { AiOutlineShoppingCart, AiOutlineShopping } from 'react-icons/ai';
 import { FiGift } from 'react-icons/fi';
 import api from '../../services/api';
+import { useAuth } from '../../hooks/TransactionContext';
 
 import { Header, Main } from './styles';
 
@@ -23,6 +24,10 @@ const Home: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [totalProduct, setTotalProduct] = useState(0);
   const [availability, SetAvailability] = useState(0);
+
+  const { user } = useAuth();
+
+  console.log(user);
 
   useEffect(() => {
     api.get<Response>('shopping').then(response => {
