@@ -16,8 +16,9 @@ interface Response {
 }
 
 interface ITransactionContext {
-  addNewTransaction(data: TransactionData): Promise<void>;
+  addNewTransaction(data: TransactionData): void;
   getTransactions(): Promise<Response>;
+  data: Array<TransactionData>;
 }
 
 const TransactionContext = createContext({} as ITransactionContext);
@@ -26,15 +27,20 @@ const TransactionProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<TransactionData[]>([] as TransactionData[]);
 
   const addNewTransaction = useCallback(
-    async ({ product_id, quantity }: TransactionData) => {
-      const response = await api.post('/shopping/cart', {
-        product_id,
-        quantity,
-      });
+    ({ product_id, quantity }: TransactionData) => {
+      const transactionExistent = data.find(
+        transaction => transaction.product_id === product_id,
+      );
 
-      const transaction = response.data;
+      if (transactionExistent) {
+        transactionExistent.quantity += 1;
 
-      setData([...data, transaction]);
+        return;
+      }
+
+      const newTransaction = { product_id, quantity };
+
+      setData([...data, newTransaction]);
     },
     [data],
   );
@@ -48,7 +54,9 @@ const TransactionProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <TransactionContext.Provider value={{ addNewTransaction, getTransactions }}>
+    <TransactionContext.Provider
+      value={{ data, addNewTransaction, getTransactions }}
+    >
       {children}
     </TransactionContext.Provider>
   );
