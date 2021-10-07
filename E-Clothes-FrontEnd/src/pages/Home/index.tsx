@@ -25,9 +25,15 @@ const Home: React.FC = () => {
   const [totalProduct, setTotalProduct] = useState(0);
   const [availability, SetAvailability] = useState(0);
 
-  const { user } = useAuth();
+  const { getTransactions } = useAuth();
 
-  console.log(user);
+  async function loadData() {
+    const transactions = await getTransactions();
+
+    console.log(transactions);
+  }
+
+  loadData();
 
   useEffect(() => {
     api.get<Response>('shopping').then(response => {

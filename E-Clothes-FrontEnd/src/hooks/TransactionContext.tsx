@@ -17,7 +17,7 @@ interface Response {
 
 interface ITransactionContext {
   addNewTransaction(data: TransactionData): Promise<void>;
-  getTransactions(): Promise<void>;
+  getTransactions(): Promise<Response>;
 }
 
 const TransactionContext = createContext({} as ITransactionContext);
@@ -40,11 +40,11 @@ const TransactionProvider: React.FC = ({ children }) => {
   );
 
   const getTransactions = useCallback(async () => {
-    const response = await api.get('/shopping/cart');
+    const response = await api.get<Response>('/shopping/cart');
 
-    const responseTransaction = response.data;
+    const allTransactions = response.data;
 
-    console.log(responseTransaction);
+    return allTransactions;
   }, []);
 
   return (
